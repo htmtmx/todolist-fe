@@ -1,7 +1,7 @@
 *{
   box-sizing: border-box;
-  /* margin: 0;
-  padding: 0; */
+  margin: 0;
+  padding: 0;
 }
 
 body{
@@ -20,4 +20,5 @@ main{
 .container-tasks-count{
   display: flex;
   gap: 16px;
+  margin: 20px;
 }
