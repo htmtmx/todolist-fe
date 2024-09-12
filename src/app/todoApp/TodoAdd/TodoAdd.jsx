@@ -1,5 +1,9 @@
 import { useForm } from "@/logic/hooks/useForm";
+import { getCookieClient } from "@/logic/utils/cookies";
+import { addTodo } from "@/services/todo/todo";
 import { useState } from "react";
+import styles from './TodoAdd.module.css';
+import Swal from 'sweetalert2';
 
 export const TodoAdd = ({ onNewTodo }) => {
 
@@ -7,26 +11,33 @@ export const TodoAdd = ({ onNewTodo }) => {
     text: '',
   });
 
+  const token = getCookieClient('auth-token');
+
   // preventDefuault for the form
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     if (text.length <= 1) return;
 
-    const newTodo = {
-      id: new Date().getTime(),
-      text,
-      status: 'pending',
-      subtasks: [],
-      comments: [],
+    try {
+      const response = await addTodo(token, { text });
+      if (!response.ok) {
+        return Swal.fire('Error', 'No se pudo agregar el todo','error');
+      } else {
+        Swal.fire('Todo agregado', 'El todo se ha agregado correctamente','success');
+      }
+      const newTodo = response.todo;
+      onNewTodo(newTodo);
+      onResetForm();
+    } catch (error) {
+      console.error('Error adding new todo:', error);
     }
-    onNewTodo && onNewTodo(newTodo);
-    onResetForm();
   }
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={styles.containerForm}>
         <input type="text"
+          className={styles.inputForm}
           placeholder="Hacer..."
           name="text"
           value={text}
@@ -34,6 +45,7 @@ export const TodoAdd = ({ onNewTodo }) => {
         />
         <button
           type="submit"
+          className={styles.buttonForm}
           onClick={handleSubmit}
         >Agregar</button>
       </form>
