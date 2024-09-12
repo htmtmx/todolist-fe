@@ -1,7 +1,9 @@
 import React from 'react';
 import { useFormLogin } from '@/logic/hooks/useFormLogin';
 import Swal from 'sweetalert2';
-import { login } from '@/services/auth/user';
+import { register } from '@/services/auth/user';
+import { setCookieClient } from '@/logic/utils/cookies';
+import { useRouter } from 'next/navigation';
 
 
 const signupFormFields = {
@@ -13,6 +15,7 @@ const signupFormFields = {
 
 export const SignupForm = ({ setLoginVisible }) => {
   
+  const router = useRouter();
 
   const { signupName, signupEmail, signupPassword, signupPasswordConfirm, onInputChange: onSignupInputChange } = useFormLogin(signupFormFields);
 
@@ -22,9 +25,12 @@ export const SignupForm = ({ setLoginVisible }) => {
       return Swal.fire('Error', 'Las contraseñas deben de ser iguales','error');
     }
     try {
-      const resp = await login(signupEmail, signupPassword, signupName);
+      const resp = await register({"name":signupName, "email":signupEmail, "password":signupPassword});
 
       if (resp.ok) {
+        router.push('/');
+        console.log(resp.token)
+        setCookieClient('auth-token', resp.token);
         console.log('Usuario creado correctamente');
       } else {
         console.log('Error al crear usuario');
