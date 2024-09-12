@@ -1,0 +1,9 @@
+.todoItem__completed {
+  text-decoration: line-through;
+  color: #ccc;
+}
+
+.todoItem__pending{
+  color: #fff;
+  text-decoration: none;
+}
