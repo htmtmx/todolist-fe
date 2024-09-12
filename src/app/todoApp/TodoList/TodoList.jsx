@@ -22,7 +22,7 @@ export function TodoList({ todos, setTasks, onToggleTodo, onDeleteTodo }) {
 
   return (
     <div>
-      <div>
+      <div className={styles.containerButtonsFilter}>
         <button
           onClick={() => handleFilterChange("all")}
           className={`${styles.buttonFilter} 
@@ -48,7 +48,7 @@ export function TodoList({ todos, setTasks, onToggleTodo, onDeleteTodo }) {
       <ul>
         {filteredTodos.map((task) => (
           <TodoItem
-            key={task.id}
+            key={`${task.id} ${task.text}`}
             onToggleTodo={onToggleTodo}
             onDeleteTodo={onDeleteTodo}
             todo={task}
