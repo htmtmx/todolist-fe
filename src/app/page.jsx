@@ -23,11 +23,10 @@ export default function Home() {
     <>
     {
       token ? (
-        <div>
-      <main>
+      <main className="mainContainer">
         <section>
           <h1>Todo App</h1>
-          <div className="container-tasks-count">
+          <div className="containerTasksCount">
             <p>Todos: <span>{allTodos}</span></p>
             <p>Completados: <span>{completedTodos}/{allTodos}</span></p>
             <p>Pendientes: <span>{pendingTodos}</span></p>
@@ -46,9 +45,6 @@ export default function Home() {
           
         </aside>
       </main>
-      <footer>
-      </footer>
-    </div>
       ) : null
     }
     </>
