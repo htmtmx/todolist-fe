@@ -3,13 +3,27 @@ import { TodoList } from "./todoApp/TodoList/TodoList";
 import { TodoAdd } from "./todoApp/TodoAdd/TodoAdd";
 import { useTodo } from "@/logic/hooks/useTodo";
 import "./main.css";
+import { getCookieClient } from "@/logic/utils/cookies";
 
 export default function Home() {
   
   const { todos, onNewTodo, onToggleTodo, onDeleteTodo, allTodos, completedTodos, pendingTodos } = useTodo();
 
+  const token = getCookieClient("auth-token");
+
+  try {
+    if (!token) {
+      window.location.href = "/auth";
+    }
+  } catch (error) {
+    console.error(error);
+  }
+
   return (
-    <div>
+    <>
+    {
+      token ? (
+        <div>
       <main>
         <section>
           <h1>Todo App</h1>
@@ -35,5 +49,8 @@ export default function Home() {
       <footer>
       </footer>
     </div>
+      ) : null
+    }
+    </>
   );
 }
