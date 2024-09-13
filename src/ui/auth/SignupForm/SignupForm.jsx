@@ -29,9 +29,7 @@ export const SignupForm = ({ setLoginVisible }) => {
 
       if (resp.ok) {
         router.push('/');
-        console.log(resp.token)
         setCookieClient('auth-token', resp.token);
-        console.log('Usuario creado correctamente');
       } else {
         console.log('Error al crear usuario');
       }

@@ -19,17 +19,16 @@ export const LoginForm = ({ setLoginVisible }) => {
   const loginSubmit = async (e) => {
     e.preventDefault();
     
-    console.log({ loginEmail, loginPassword });
     
     try {
       const resp = await login({email:loginEmail, password:loginPassword});
       if (resp.ok) {
         router.push('/');
-        console.log(resp.token)
         setCookieClient('auth-token', resp.token);
         console.log('Usuario logueado correctamente');
       } else {
         console.log('Error al loguear usuario');
+        return Swal.fire('Error', 'Usuario o contraseña incorrectos','error');
       }
     } catch (error) {
       console.error(error);
