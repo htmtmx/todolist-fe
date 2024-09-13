@@ -22,3 +22,15 @@ export const addTodo = async (token, todo) => {
   const data = await response.json();
   return data;
 }
+
+export const deleteTodo = async (token, id) => {
+  const response = await fetch(`${todoInfoUrls.deleteTodo}/${id}`
+    , {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-token': token,
+      },
+  });
+  return await response.json();
+}
